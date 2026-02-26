@@ -1,7 +1,7 @@
-export default function ErrorState({ message }) {
-  return (
-    <div className="text-center py-10 text-red-500">
-      {message || "Something went wrong"}
-    </div>
-  );
-}
+const ErrorState = ({ message }) => (
+  <div className="bg-red-100 text-red-700 p-4 rounded-md">
+    {message}
+  </div>
+);
+
+export default ErrorState;

@@ -1,41 +1,31 @@
 import { useState } from "react";
-import { addCity } from "../services/cityService";
 
-export default function AddCityForm({ onCityAdded }) {
-  const [cityName, setCityName] = useState("");
-  const [loading, setLoading] = useState(false);
+const AddCityForm = ({ onAdd }) => {
+  const [city, setCity] = useState("");
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if (!cityName) return;
-    setLoading(true);
-    try {
-      const newCity = await addCity(cityName);
-      onCityAdded(newCity); // Callback to update dashboard
-      setCityName("");
-    } catch (err) {
-      alert("Failed to add city");
-    } finally {
-      setLoading(false);
-    }
+    if (!city.trim()) return;
+    onAdd(city);
+    setCity("");
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex mb-4 gap-2">
+    <form onSubmit={handleSubmit} className="flex gap-2 mb-6">
       <input
-        type="text"
+        value={city}
+        onChange={(e) => setCity(e.target.value)}
         placeholder="Enter city name"
-        className="flex-1 border p-2 rounded"
-        value={cityName}
-        onChange={(e) => setCityName(e.target.value)}
+        className="flex-1 px-4 py-2 rounded-md border focus:ring-2 focus:ring-indigo-400"
       />
       <button
         type="submit"
-        className="bg-indigo-600 text-white px-4 rounded"
-        disabled={loading}
+        className="px-6 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
       >
-        {loading ? "Adding..." : "Add"}
+        Add
       </button>
     </form>
   );
-}
+};
+
+export default AddCityForm;

@@ -1,20 +1,15 @@
-import { useNavigate } from "react-router-dom";
-import { logoutUser } from "../services/authService";
+import { useAuth } from "../context/AuthContext";
 
-export default function LogoutButton() {
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    logoutUser(); // clear token
-    navigate("/login"); // redirect to login
-  };
-
+const LogoutButton = () => {
+  const { logout } = useAuth();
   return (
     <button
-      onClick={handleLogout}
-      className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
+      onClick={logout}
+      className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
     >
       Logout
     </button>
   );
-}
+};
+
+export default LogoutButton;

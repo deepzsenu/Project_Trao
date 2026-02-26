@@ -1,21 +1,11 @@
-import axios from "axios";
+import api from "../api/axios";
 
-const API_URL = "http://localhost:5000/api/auth"; // adjust if different
-
-export const registerUser = async (userData) => {
-  const response = await axios.post(`${API_URL}/register`, userData);
+export const registerUser = async (data) => {
+  const response = await api.post("/auth/register", data);
   return response.data;
 };
 
-export const loginUser = async (credentials) => {
-  const response = await axios.post(`${API_URL}/login`, credentials);
-  // Save token to localStorage
-  if (response.data.token) {
-    localStorage.setItem("token", response.data.token);
-  }
+export const loginUser = async (data) => {
+  const response = await api.post("/auth/login", data);
   return response.data;
-};
-
-export const logoutUser = () => {
-  localStorage.removeItem("token");
 };

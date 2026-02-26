@@ -1,47 +1,18 @@
-import { Link, useNavigate } from "react-router-dom";
 import LogoutButton from "./LogoutButton";
-import { useEffect, useState } from "react";
 
-export default function Layout({ children }) {
-  const [username, setUsername] = useState("");
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    // Fetch user info from localStorage (or API if you have a /me endpoint)
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUsername(JSON.parse(storedUser).name);
-    } else {
-      // Redirect to login if no user info
-      navigate("/");
-    }
-  }, [navigate]);
-
+const Layout = ({ children }) => {
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col">
-      {/* Navbar */}
-      <header className="bg-indigo-600 text-white shadow">
-        <div className="max-w-5xl mx-auto flex justify-between items-center p-4">
-          <Link to="/dashboard">
-            <h1 className="text-xl font-bold hover:text-gray-200 transition">
-              Weather Dashboard
-            </h1>
-          </Link>
-
-          <div className="flex items-center space-x-4">
-            {username && <span className="font-medium">Hello, {username}</span>}
-            <LogoutButton />
-          </div>
-        </div>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      <header className="flex justify-between items-center px-6 py-4 bg-white shadow">
+        <h1 className="text-2xl font-bold text-indigo-600">
+          🌦 Weather Dashboard
+        </h1>
+        <LogoutButton />
       </header>
 
-      {/* Main Content */}
-      <main className="flex-1 max-w-5xl mx-auto p-6 w-full">{children}</main>
-
-      {/* Footer */}
-      <footer className="bg-gray-200 text-gray-700 p-4 mt-auto text-center text-sm">
-        &copy; {new Date().getFullYear()} Weather Dashboard. All rights reserved.
-      </footer>
+      <main className="max-w-6xl mx-auto p-6">{children}</main>
     </div>
   );
-}
+};
+
+export default Layout;

@@ -1,32 +1,23 @@
 import { useEffect, useState } from "react";
 import Layout from "../components/Layout";
-import { getCities } from "../services/cityService";
 import AddCityForm from "../components/AddCityForm";
 import CityCard from "../components/CityCard";
 import Loader from "../components/Loader";
 import EmptyState from "../components/EmptyState";
 import ErrorState from "../components/ErrorState";
+import { getCities, addCity, toggleFavorite, deleteCity } from "../services/cityService";
 
-export default function Dashboard() {
+const Dashboard = () => {
   const [cities, setCities] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // Sort favorites first
-  const sortCities = (arr) =>
-    [...arr].sort((a, b) => (b.isFavorite ? 1 : 0) - (a.isFavorite ? 1 : 0));
-
-  // Fetch cities
   const fetchCities = async () => {
-    if (cities.length === 0) setLoading(true);
-    setError("");
     try {
+      setLoading(true);
       const data = await getCities();
-      if (data && Array.isArray(data)) {
-        setCities(sortCities([...data])); // new array reference
-      }
+      setCities(data);
     } catch (err) {
-      console.error(err);
       setError("Failed to load cities");
     } finally {
       setLoading(false);
@@ -35,55 +26,45 @@ export default function Dashboard() {
 
   useEffect(() => {
     fetchCities();
-    const interval = setInterval(fetchCities, 5 * 60 * 1000);
-    return () => clearInterval(interval);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Add city
-  const handleCityAdded = (city) => {
-    setCities((prev) => sortCities([city, ...prev]));
+  const handleAdd = async (name) => {
+    await addCity(name);
+    fetchCities();
   };
 
-  // Favorite toggle
-  const handleFavoriteToggle = async (updatedCity) => {
-    setCities((prev) =>
-        sortCities(
-        prev.map((c) =>
-            c._id === updatedCity._id
-            ? { ...updatedCity, weather: c.weather } // keep existing weather
-            : c
-        )
-        )
-    );
+  const handleToggleFavorite = async (id) => {
+    await toggleFavorite(id);
+    fetchCities();
+  };
 
-    try {
-        const refreshedCities = await getCities(); // fetch latest weather
-        setCities(sortCities([...refreshedCities]));
-    } catch (err) {
-        console.error("Failed to refresh weather:", err);
-    }
-    };
+  const handleDelete = async (id) => {
+    await deleteCity(id);
+    fetchCities();
+  };
+
+  const sortedCities = [...cities].sort((a, b) => b.isFavorite - a.isFavorite);
 
   return (
     <Layout>
-      <AddCityForm onCityAdded={handleCityAdded} />
+      <AddCityForm onAdd={handleAdd} />
 
-      {loading && cities.length === 0 && <Loader />}
+      {loading && <Loader />}
       {error && <ErrorState message={error} />}
-      {!loading && !error && cities.length === 0 && (
-        <EmptyState message="No cities added yet" />
-      )}
+      {!loading && cities.length === 0 && <EmptyState />}
 
-      <div className="grid gap-4 mt-4">
-        {cities.map((city) => (
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {sortedCities.map((city) => (
           <CityCard
             key={city._id}
             city={city}
-            onFavoriteToggle={handleFavoriteToggle}
+            onToggleFavorite={handleToggleFavorite}
+            onDelete={handleDelete}
           />
         ))}
       </div>
     </Layout>
   );
-}
+};
+
+export default Dashboard;

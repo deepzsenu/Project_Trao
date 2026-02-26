@@ -31,8 +31,4 @@ mongoose
   .catch((err) => {
       console.error("❌ Database connection error:", err);
       process.exit(1);
-<<<<<<< HEAD
   });
-=======
-  });
->>>>>>> 87a7154cf6613bd991516ea02f53e04c3ab3b1a8

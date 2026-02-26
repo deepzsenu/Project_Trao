@@ -2,3 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* optional to improve blur: */
+.backdrop-blur-sm {
+  backdrop-filter: blur(6px);
+}

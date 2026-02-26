@@ -16,11 +16,11 @@ const AddCityForm = ({ onAdd }) => {
         value={city}
         onChange={(e) => setCity(e.target.value)}
         placeholder="Enter city name"
-        className="flex-1 px-4 py-2 rounded-md border focus:ring-2 focus:ring-indigo-400"
+        className="flex-1 px-4 py-2 rounded-md text-black border focus:ring-2 focus:ring-indigo-400"
       />
       <button
         type="submit"
-        className="px-6 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
+        className="px-6 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition active:scale-95"
       >
         Add
       </button>

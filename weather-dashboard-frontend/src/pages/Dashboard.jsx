@@ -6,6 +6,7 @@ import Loader from "../components/Loader";
 import EmptyState from "../components/EmptyState";
 import ErrorState from "../components/ErrorState";
 import SkeletonCard from "../components/SkeletonCard";
+import AIAssistant from "../components/AIAssistant";
 
 import {
   getCities,
@@ -146,6 +147,7 @@ const Dashboard = () => {
           ))}
         </AnimatePresence>
       </div>
+      <AIAssistant />
     </Layout>
   );
 };

@@ -14,6 +14,8 @@ app.use(express.json());
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/cities", require("./routes/city"));
 
+app.use("/api/ai", require("./routes/ai"));
+
 // Health Check
 app.get("/", (req, res) => {
     res.json({ message: "Weather Dashboard API Running" });

@@ -4,6 +4,7 @@ import React from "react";
 
 const CityCard = ({ city, onToggleFavorite, onDelete }) => {
   const isFav = city.isFavorite;
+  const hasWeather = city.weather && !city.weather.error;
 
   return (
     <motion.div
@@ -45,21 +46,25 @@ const CityCard = ({ city, onToggleFavorite, onDelete }) => {
         {city.name}
       </h2>
 
-      {/* Weather */}
-      {city.weather && !city.weather.error ? (
-        <div className="mt-3 space-y-1 text-gray-700">
-          <p>🌡 {city.weather.temperature}°C</p>
-          <p>💧 {city.weather.humidity}% Humidity</p>
-          <p>🌬 {city.weather.windSpeed} m/s</p>
-          <p className="capitalize">☁ {city.weather.condition}</p>
-        </div>
+      {/* Weather Section */}
+      {hasWeather ? (
+        <>
+          <div className="mt-3 space-y-1 text-gray-700">
+            <p>🌡 {city.weather.temperature}°C</p>
+            <p>💧 {city.weather.humidity}% Humidity</p>
+            <p>🌬 {city.weather.windSpeed} m/s</p>
+            <p className="capitalize">☁ {city.weather.condition}</p>
+          </div>
+
+          {/* ✅ SAFE Weather Chart */}
+          <WeatherChart temperature={city.weather.temperature} />
+        </>
       ) : (
-        <p className="text-red-600 mt-2 font-medium">
-          Weather not available
+        <p className="text-gray-500 mt-3 italic">
+          Fetching weather...
         </p>
       )}
-    
-      <WeatherChart temperature={city.weather.temperature} />
+
       {/* Delete */}
       <button
         onClick={() => onDelete(city._id)}
@@ -67,7 +72,6 @@ const CityCard = ({ city, onToggleFavorite, onDelete }) => {
       >
         Delete
       </button>
-      
     </motion.div>
   );
 };

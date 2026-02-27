@@ -38,15 +38,13 @@ const Dashboard = () => {
     fetchCities();
   }, []);
 
-  // ----------------------------
-  // Optimistic Add
-  // ----------------------------
+  
   const handleAdd = async (name) => {
     const tempCity = {
       _id: Date.now().toString(),
       name,
       isFavorite: false,
-      weather: null,
+      weather: { loading: true },
     };
 
     setCities((prev) => [tempCity, ...prev]);
@@ -61,9 +59,7 @@ const Dashboard = () => {
     }
   };
 
-  // ----------------------------
-  // Optimistic Favorite
-  // ----------------------------
+  
   const handleToggleFavorite = async (id) => {
     const previous = [...cities];
 
@@ -84,9 +80,7 @@ const Dashboard = () => {
     }
   };
 
-  // ----------------------------
-  // Optimistic Delete
-  // ----------------------------
+  
   const handleDelete = async (id) => {
     const previous = [...cities];
 

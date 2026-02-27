@@ -100,8 +100,8 @@ The project demonstrates:
 ### 1️⃣ Clone Repository
 
 ```bash
-git clone <your-repo-url>
-cd weather-dashboard
+git clone https://github.com/deepzsenu/Project_Trao.git
+cd Project_Trao
 ```
 
 ---
@@ -144,7 +144,11 @@ cd weather-dashboard-frontend
 npm install
 npm run dev
 ```
+Create `.env` file:
 
+```
+VITE_API_BASE_URL=your_base_url
+```
 Runs on:
 
 ```

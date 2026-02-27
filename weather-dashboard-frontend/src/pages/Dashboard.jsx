@@ -5,6 +5,8 @@ import CityCard from "../components/CityCard";
 import Loader from "../components/Loader";
 import EmptyState from "../components/EmptyState";
 import ErrorState from "../components/ErrorState";
+import SkeletonCard from "../components/SkeletonCard";
+
 import {
   getCities,
   addCity,
@@ -126,6 +128,10 @@ const Dashboard = () => {
       {loading && <Loader />}
       {error && <ErrorState message={error} />}
       {!loading && filteredCities.length === 0 && <EmptyState />}
+      {loading &&
+        Array(6)
+            .fill(0)
+            .map((_, i) => <SkeletonCard key={i} />)}
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         <AnimatePresence>

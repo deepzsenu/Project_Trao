@@ -1,4 +1,6 @@
 import { motion } from "framer-motion";
+import WeatherChart from "./WeatherChart";
+import React from "react";
 
 const CityCard = ({ city, onToggleFavorite, onDelete }) => {
   const isFav = city.isFavorite;
@@ -56,7 +58,8 @@ const CityCard = ({ city, onToggleFavorite, onDelete }) => {
           Weather not available
         </p>
       )}
-
+    
+      <WeatherChart temperature={city.weather.temperature} />
       {/* Delete */}
       <button
         onClick={() => onDelete(city._id)}
@@ -64,8 +67,9 @@ const CityCard = ({ city, onToggleFavorite, onDelete }) => {
       >
         Delete
       </button>
+      
     </motion.div>
   );
 };
 
-export default CityCard;
+export default React.memo(CityCard);
